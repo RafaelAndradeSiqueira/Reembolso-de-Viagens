@@ -84,24 +84,29 @@ gh repo create reembolso-viagens --private --source=. --push
    | `OPENROUTER_API_KEY` | sua chave do OpenRouter |
    | `FRONTEND_URL` | URL do front, ex.: `https://reembolso.vercel.app` |
 
-   O resto (SQLite em `/tmp`, criação automática do banco) já está em `backend/vercel.json`.
+3. Em *Storage*, conecte o banco **Neon** ao projeto do backend. A Vercel cria a variável
+   `DATABASE_URL` sozinha e o Laravel já lê ela (`config/database.php`).
+
+   O resto (`DB_CONNECTION=pgsql`, criação automática das tabelas) já está em `backend/vercel.json`.
 
 ### 2. Frontend
 1. *New Project* → repositório → **Root Directory: `frontend`** (framework: Vite).
 2. Variável `VITE_API_URL` = URL do backend (ex.: `https://reembolso-api.vercel.app`).
 3. Confira se o `FRONTEND_URL` do backend é exatamente a URL do front e faça redeploy do backend.
 
-## ⚠️ SQLite na Vercel
+## Bancos de dados
 
-A Vercel só deixa gravar em `/tmp`, e essa pasta **é apagada** quando a função fica parada
-ou é reiniciada (e cada instância tem a sua). Na prática, com SQLite na Vercel **as contas e os
-valores somem de tempos em tempos** e a pessoa precisa se cadastrar de novo.
-Localmente (ou num servidor com disco próprio) o SQLite funciona normalmente.
+| Onde | Banco |
+|---|---|
+| Local | SQLite (`backend/database/database.sqlite`) |
+| Vercel | Postgres no Neon (via `DATABASE_URL`) |
 
-Para ter dados permanentes **sem mudar nenhuma linha de código**, use um Postgres gratuito
-(ex.: Neon ou Supabase, ambos disponíveis no Marketplace da Vercel):
+### Acessar o Neon pela sua máquina
 
-1. Crie o banco e copie a connection string.
-2. No `backend/vercel.json`, troque `"DB_CONNECTION": "sqlite"` por `"DB_CONNECTION": "pgsql"`.
-3. Na Vercel, adicione `DB_URL` = a connection string.
-4. Redeploy. As tabelas são criadas sozinhas no primeiro acesso (`DB_MIGRAR_AUTOMATICAMENTE`).
+O PHP do WAMP usa uma `libpq` antiga, sem SNI, e o Neon recusa com
+`Endpoint ID is not specified`. Para rodar comandos contra o Neon localmente, passe o ID do
+endpoint (o começo do host, sem `-pooler`) junto com a senha, sem gravar em arquivo:
+
+```bash
+DB_CONNECTION=pgsql DB_HOST=<host-pooler> DB_DATABASE=neondb DB_USERNAME=neondb_owner DB_SSLMODE=require DB_PASSWORD='endpoint=<id-do-endpoint>;<senha>' php artisan migrate --force
+```
