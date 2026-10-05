@@ -1,0 +1,51 @@
+:root {
+  --marca: #c2416b;
+  --marca-escura: #9b2f53;
+  --marca-suave: #fbe9ef;
+  --fundo-pagina: #f7f4f2;
+}
+
+body {
+  background: var(--fundo-pagina);
+  min-height: 100vh;
+}
+
+.btn-marca {
+  background: var(--marca);
+  border-color: var(--marca);
+  color: #fff;
+}
+
+.btn-marca:hover,
+.btn-marca:focus,
+.btn-marca:active {
+  background: var(--marca-escura) !important;
+  border-color: var(--marca-escura) !important;
+  color: #fff;
+}
+
+.text-marca {
+  color: var(--marca);
+}
+
+.barra-marca {
+  background: var(--marca);
+}
+
+.tela-acesso {
+  min-height: 90vh;
+}
+
+.card {
+  border: 0;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 12px rgba(60, 30, 40, 0.06);
+}
+
+.dinheiro {
+  font-variant-numeric: tabular-nums;
+}
+
+.quebra-linha {
+  white-space: pre-line;
+}
