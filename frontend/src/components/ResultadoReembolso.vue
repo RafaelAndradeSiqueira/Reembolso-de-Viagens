@@ -2,7 +2,7 @@
   <b-card>
     <div class="text-center mb-3">
       <small class="text-muted text-uppercase">Reembolso de {{ mesPorExtenso }}</small>
-      <div class="display-4 font-weight-bold text-marca dinheiro">{{ formatarDinheiro(resultado.total_esperado) }}</div>
+      <div class="valor-total font-weight-bold text-marca dinheiro">{{ formatarDinheiro(resultado.total_esperado) }}</div>
       <small class="text-muted">{{ resultado.dias_uteis }} dias úteis trabalhados</small>
     </div>
 

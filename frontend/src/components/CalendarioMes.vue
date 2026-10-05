@@ -19,7 +19,10 @@
       >
         <span class="numero-dia">{{ celula.dia }}</span>
         <span v-if="!celula.fimDeSemana" class="valor-dia dinheiro">
-          <template v-if="celula.excluida">folga</template>
+          <template v-if="celula.excluida">
+            <span class="d-none d-sm-inline">folga</span>
+            <span class="d-sm-none">—</span>
+          </template>
           <template v-else>
             <span class="d-none d-sm-inline">{{ formatarDinheiro(celula.valor) }}</span>
             <span class="d-sm-none">{{ formatarNumeroCurto(celula.valor) }}</span>
